@@ -35,7 +35,7 @@ jobs:
           touch database/database.sqlite
       - name: Run migration and seed database
         run: |
-          php artisan migrate --seed
+          php artisan migrate --seed --force
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         env:
           DB_CONNECTION: sqlite
