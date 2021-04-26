@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Resources\SchoolResource;
 use App\Models\School;
 
-class SchoolController
+final class SchoolController
 {
     public function index()
     {
