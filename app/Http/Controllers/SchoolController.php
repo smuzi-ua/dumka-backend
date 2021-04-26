@@ -8,7 +8,7 @@ use Spatie\RouteAttributes\Attributes\Get;
 
 final class SchoolController
 {
-    #[Get('/schools', name: "schools.index")]
+    #[Get('/schools', name: 'schools.index')]
     public function index()
     {
         return SchoolResource::collection(School::all());
