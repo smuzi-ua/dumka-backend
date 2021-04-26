@@ -1,17 +1,28 @@
 name: Laravel
 
-on:
-  push:
+on: push
 
 jobs:
-  laravel-tests:
-
+  tests:
     runs-on: ubuntu-latest
-
+    services:
+      postgres:
+        # Docker Hub image
+        image: postgres
+        env:
+          POSTGRES_USER: dumka
+          POSTGRES_DB: dumka
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v2
       - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+        run: php -r "file_exists('.env') || copy('.env.ci', '.env');"
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
       - name: Generate key
@@ -22,6 +33,9 @@ jobs:
         run: |
           mkdir -p database
           touch database/database.sqlite
+      - name: Run migration and seed database
+        run: |
+          php artisan migrate --seed
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         env:
           DB_CONNECTION: sqlite
