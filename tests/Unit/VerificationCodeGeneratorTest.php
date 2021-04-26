@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use App\Services\VerificationCodeGenerator;
 use PHPUnit\Framework\TestCase;
 
-class VerificationCodeGeneratorTest extends TestCase
+final class VerificationCodeGeneratorTest extends TestCase
 {
     private VerificationCodeGenerator $codeGenerator;
 
