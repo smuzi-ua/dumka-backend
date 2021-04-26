@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\School;
+use App\Services\VerificationCodeGenerator;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class SchoolFactory extends Factory
