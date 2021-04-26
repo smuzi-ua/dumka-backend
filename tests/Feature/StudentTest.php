@@ -14,7 +14,7 @@ final class StudentTest extends TestCase
     {
         $school = School::factory()->create();
 
-        $this->post("/schools/{$school->id}/students", [
+        $this->postJson("/schools/{$school->id}/students", [
             'name' => 'John Doe',
             'slug' => 'johndoe'.Str::random()
         ])->assertJsonStructure([
@@ -31,11 +31,24 @@ final class StudentTest extends TestCase
     {
         $student = User::first();
 
-        $this->post('/token', [
+        $this->postJson('/token', [
             'slug'              => $student->slug,
             'verification_code' => $student->verification_code,
         ])->assertJsonStructure([
             'token',
+        ]);
+    }
+
+    public function test_it_can_validate_student_verification(): void
+    {
+        $student = User::first();
+
+        $this->postJson('/token', [
+            'slug'              => $student->slug,
+            'verification_code' => Str::random(),
+        ])->assertJsonStructure([
+            'message',
+            'errors' => ['verification_code']
         ]);
     }
 }
