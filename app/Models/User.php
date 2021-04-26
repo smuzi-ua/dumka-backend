@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Services\VerificationCodeGenerator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -25,5 +24,13 @@ class User extends Authenticatable
     public function school()
     {
         return $this->belongsTo(School::class);
+    }
+
+    public function verify(): self
+    {
+        $this->verified_at = now();
+        $this->save();
+
+        return $this;
     }
 }

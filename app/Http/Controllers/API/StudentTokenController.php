@@ -2,14 +2,28 @@
 
 namespace App\Http\Controllers\API;
 
-use Illuminate\Routing\Middleware\SubstituteBindings;
+use App\Http\Requests\StudentTokenRequest;
+use App\Models\User;
+use Illuminate\Validation\ValidationException;
 use Spatie\RouteAttributes\Attributes\Post;
 
-class StudentTokenController
+final class StudentTokenController
 {
-    #[Post('students/{student}/token', middleware: SubstituteBindings::class)]
-    public function __invoke()
+    #[Post('/token')]
+    public function __invoke(StudentTokenRequest $request)
     {
-        // TODO: Implement __invoke() method.
+        $student = User::whereSlug($request->slug)->first();
+
+        if (!$student || $student->verification_code !== $request->verification_code) {
+            throw ValidationException::withMessages([
+                'verification_code' => 'Verification code is invalid.'
+            ]);
+        }
+
+        $student->verify();
+
+        return [
+            'token' => $student->createToken($request->userAgent())->plainTextToken
+        ];
     }
 }
