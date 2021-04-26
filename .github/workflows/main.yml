@@ -10,8 +10,6 @@ jobs:
         # Docker Hub image
         image: postgres
         env:
-          POSTGRES_USER: dumka
-          POSTGRES_DB: dumka
           POSTGRES_PASSWORD: postgres
         # Set health checks to wait until postgres has started
         options: >-
@@ -19,25 +17,20 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+        ports:
+          - 5432:5432
     steps:
       - uses: actions/checkout@v2
       - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.ci', '.env');"
+        run: cp .env.ci .env
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
       - name: Generate key
         run: php artisan key:generate
       - name: Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
-      - name: Create Database
-        run: |
-          mkdir -p database
-          touch database/database.sqlite
       - name: Run migration and seed database
         run: |
           php artisan migrate --seed --force
       - name: Execute tests (Unit and Feature tests) via PHPUnit
-        env:
-          DB_CONNECTION: sqlite
-          DB_DATABASE: database/database.sqlite
         run: vendor/bin/phpunit --testdox
