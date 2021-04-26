@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers;
 
 use App\Actions\CreateStudent;
 use App\Http\Requests\StoreStudentRequest;
