@@ -39,7 +39,7 @@ final class StudentTest extends TestCase
         ]);
     }
 
-    public function test_it_can_validate_student_verification(): void
+    public function test_it_can_decline_student_verification(): void
     {
         $student = User::first();
 
