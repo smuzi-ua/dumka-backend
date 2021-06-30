@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use App\Http\Requests\StoreProposalRequest;
 use App\Http\Resources\ProposalResource;
@@ -18,8 +18,6 @@ final class SchoolProposalController
         if (!$request->user()->school()->is($school)) {
             abort(Response::HTTP_FORBIDDEN);
         }
-
-        $school->load('proposals');
 
         return ProposalResource::collection($school->proposals);
     }
