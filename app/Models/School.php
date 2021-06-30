@@ -22,4 +22,9 @@ final class School extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function proposals()
+    {
+        return $this->hasMany(Proposal::class);
+    }
 }

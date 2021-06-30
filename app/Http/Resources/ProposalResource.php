@@ -14,8 +14,8 @@ class ProposalResource extends JsonResource
             'body'       => $this->body,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'user_id'    => $this->user_id,
-            'school_id'  => $this->school_id,
+            'user_id'    => $this->user->getRouteKey(),
+            'school_id'  => $this->school->getRouteKey(),
         ];
     }
 }
