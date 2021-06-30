@@ -11,7 +11,7 @@ final class ProposalsTest extends SancrumTestCase
     {
         $proposalData = Proposal::factory()->make()->toArray();
 
-        $this->post("/schools/{$this->school->getRouteKey()}/proposals", $proposalData)
+        $this->post("/api/v1/schools/{$this->school->getRouteKey()}/proposals", $proposalData)
             ->dump()
             ->assertCreated()
             ->assertJsonStructure([
@@ -21,7 +21,7 @@ final class ProposalsTest extends SancrumTestCase
 
     public function test_it_can_return_list_of_proposals(): void
     {
-        $this->get("/schools/{$this->school->getRouteKey()}/proposals")
+        $this->get("/api/v1/schools/{$this->school->getRouteKey()}/proposals")
             ->dump()
             ->assertJsonStructure([
                 'data' => [

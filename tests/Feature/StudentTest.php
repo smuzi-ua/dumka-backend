@@ -14,7 +14,7 @@ final class StudentTest extends TestCase
     {
         $school = School::factory()->create();
 
-        $this->postJson("/schools/{$school->id}/students", [
+        $this->postJson("/api/v1/schools/{$school->id}/students", [
             'name' => 'John Doe',
             'slug' => 'johndoe'.Str::random()
         ])->assertJsonStructure([
@@ -31,7 +31,7 @@ final class StudentTest extends TestCase
     {
         $student = User::first();
 
-        $this->postJson('/token', [
+        $this->postJson('/api/v1/token', [
             'slug'              => $student->slug,
             'verification_code' => $student->verification_code,
         ])->assertJsonStructure([
@@ -43,7 +43,7 @@ final class StudentTest extends TestCase
     {
         $student = User::first();
 
-        $this->postJson('/token', [
+        $this->postJson('/api/v1/token', [
             'slug'              => $student->slug,
             'verification_code' => Str::random(),
         ])->assertJsonStructure([

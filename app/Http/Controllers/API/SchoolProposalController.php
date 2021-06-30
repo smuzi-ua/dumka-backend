@@ -7,9 +7,10 @@ use App\Http\Resources\ProposalResource;
 use Illuminate\Http\Request;
 use App\Models\{Proposal, School};
 use Illuminate\Routing\Middleware\SubstituteBindings;
-use Spatie\RouteAttributes\Attributes\{Get, Post};
+use Spatie\RouteAttributes\Attributes\{Get, Post, Prefix};
 use Symfony\Component\HttpFoundation\Response;
 
+#[Prefix('/api/v1')]
 final class SchoolProposalController
 {
     #[Get('/schools/{school}/proposals', middleware: ['auth:sanctum', SubstituteBindings::class])]

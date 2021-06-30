@@ -7,8 +7,9 @@ use App\Http\Requests\StoreStudentRequest;
 use App\Http\Resources\StudentResource;
 use App\Models\School;
 use Illuminate\Routing\Middleware\SubstituteBindings;
-use Spatie\RouteAttributes\Attributes\Post;
+use Spatie\RouteAttributes\Attributes\{Post, Prefix};
 
+#[Prefix('/api/v1')]
 final class StudentController
 {
     #[Post('schools/{school}/students', middleware: SubstituteBindings::class)]
