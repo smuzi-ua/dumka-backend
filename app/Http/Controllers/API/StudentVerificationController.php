@@ -8,9 +8,9 @@ use Illuminate\Validation\ValidationException;
 use Spatie\RouteAttributes\Attributes\{Post, Prefix};
 
 #[Prefix('/api/v1')]
-final class StudentTokenController
+final class StudentVerificationController
 {
-    #[Post('/token')]
+    #[Post('/students/verification')]
     public function __invoke(StudentTokenRequest $request)
     {
         $student = User::whereSlug($request->slug)->first();

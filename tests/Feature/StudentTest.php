@@ -31,7 +31,7 @@ final class StudentTest extends TestCase
     {
         $student = User::first();
 
-        $this->postJson('/api/v1/token', [
+        $this->postJson('/api/v1/students/verification', [
             'slug'              => $student->slug,
             'verification_code' => $student->verification_code,
         ])->assertJsonStructure([
@@ -43,7 +43,7 @@ final class StudentTest extends TestCase
     {
         $student = User::first();
 
-        $this->postJson('/api/v1/token', [
+        $this->postJson('/api/v1/students/verification', [
             'slug'              => $student->slug,
             'verification_code' => Str::random(),
         ])->assertJsonStructure([
