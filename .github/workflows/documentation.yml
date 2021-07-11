@@ -23,7 +23,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
           branch: gh-pages
-          folder: public/docs
+          folder: docs
           git-config-name: Documentarian 🕵️
           git-config-email: ${{ secrets.GH_EMAIL }}
           token: ${{ secrets.GH_TOKEN }}
