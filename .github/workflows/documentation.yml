@@ -26,4 +26,4 @@ jobs:
           folder: public/docs
           email: ${{ secrets.GH_EMAIL }}
           token: ${{ secrets.GH_TOKEN }}
-          repository: ${{ secrets.GH_DOCS_REPO }}
+          repository-name: ${{ secrets.GH_DOCS_REPO }}
