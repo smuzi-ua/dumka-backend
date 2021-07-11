@@ -1,4 +1,4 @@
-name: Laravel
+name: Execute tests
 
 on: push
 
@@ -7,7 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        # Docker Hub image
         image: postgres
         env:
           POSTGRES_PASSWORD: postgres
