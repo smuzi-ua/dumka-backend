@@ -6,7 +6,6 @@ use App\Http\Requests\StoreProposalRequest;
 use App\Http\Resources\ProposalResource;
 use Illuminate\Http\Request;
 use App\Models\{Proposal, School};
-use Illuminate\Routing\Middleware\SubstituteBindings;
 use Spatie\RouteAttributes\Attributes\{Get, Post, Prefix};
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 final class SchoolProposalController
 {
     /** Get a list of proposals */
-    #[Get('/schools/{school}/proposals', middleware: ['auth:sanctum', SubstituteBindings::class])]
+    #[Get('/schools/{school}/proposals', middleware: 'auth:sanctum')]
     public function index(School $school, Request $request)
     {
         if (!$request->user()->school()->is($school)) {
@@ -29,7 +28,7 @@ final class SchoolProposalController
     }
 
     /** Add a new proposal */
-    #[Post('/schools/{school}/proposals', middleware: ['auth:sanctum', SubstituteBindings::class])]
+    #[Post('/schools/{school}/proposals', middleware: 'auth:sanctum')]
     public function store(School $school, StoreProposalRequest $request)
     {
         if (!$request->user()->school()->is($school)) {
