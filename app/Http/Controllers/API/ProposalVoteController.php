@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Requests\StoreVoteRequest;
-use App\Models\{Proposal, User, Vote};
+use App\Models\Proposal;
 use Spatie\RouteAttributes\Attributes\{Post, Prefix};
-use Symfony\Component\HttpFoundation\Response;
 
 /** @group Proposals */
 #[Prefix('/api/v1')]
@@ -15,11 +14,10 @@ final class ProposalVoteController
     #[Post('/proposals/{proposal}/vote', middleware: 'auth:sanctum')]
     public function store(Proposal $proposal, StoreVoteRequest $request)
     {
-        /** @var Vote $vote */
-        $vote = $proposal->votes()->make($request->validated());
-        $vote->user()->associate(User::class);
-        $vote->save();
+        $vote = $proposal->votes()->where('user_id', $request->user()->id)->firstOrNew();
 
-        return response()->noContent(Response::HTTP_CREATED);
+        $vote->update($request->validated());
+
+        return response()->noContent();
     }
 }
