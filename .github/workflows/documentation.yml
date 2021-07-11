@@ -24,6 +24,9 @@ jobs:
         with:
           branch: gh-pages
           folder: public/docs
-          email: ${{ secrets.GH_EMAIL }}
+          git-config-name: Documentarian 🕵️
+          git-config-email: ${{ secrets.GH_EMAIL }}
           token: ${{ secrets.GH_TOKEN }}
           repository-name: ${{ secrets.GH_DOCS_REPO }}
+          commit-message: 🗞️ A fresh new portion of docs 🗞️
+          single-commit: true
