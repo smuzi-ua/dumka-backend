@@ -1,9 +1,9 @@
 /.scribe
+/docs
 /.idea
 /node_modules
 /public/hot
 /public/storage
-/public/docs
 /storage/*.key
 /vendor
 .env
