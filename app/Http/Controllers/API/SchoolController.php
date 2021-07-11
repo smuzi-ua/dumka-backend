@@ -9,6 +9,7 @@ use Spatie\RouteAttributes\Attributes\{Get, Prefix};
 #[Prefix('/api/v1')]
 final class SchoolController
 {
+    /** Get a list of schools */
     #[Get('/schools', name: 'schools.index')]
     public function index()
     {

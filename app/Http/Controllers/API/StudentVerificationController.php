@@ -10,6 +10,7 @@ use Spatie\RouteAttributes\Attributes\{Post, Prefix};
 #[Prefix('/api/v1')]
 final class StudentVerificationController
 {
+    /** Verify student */
     #[Post('/students/verification')]
     public function __invoke(StudentTokenRequest $request)
     {
