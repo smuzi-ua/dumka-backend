@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 #[Prefix('/api/v1')]
 final class SchoolProposalController
 {
+    /** Get a list of proposals */
     #[Get('/schools/{school}/proposals', middleware: ['auth:sanctum', SubstituteBindings::class])]
     public function index(School $school, Request $request)
     {
@@ -27,6 +28,7 @@ final class SchoolProposalController
         return ProposalResource::collection($school->proposals);
     }
 
+    /** Add a new proposal */
     #[Post('/schools/{school}/proposals', middleware: ['auth:sanctum', SubstituteBindings::class])]
     public function store(School $school, StoreProposalRequest $request)
     {

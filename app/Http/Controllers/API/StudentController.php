@@ -15,6 +15,7 @@ use Spatie\RouteAttributes\Attributes\{Post, Prefix};
 #[Prefix('/api/v1')]
 final class StudentController
 {
+    /** Create a new student */
     #[Post('schools/{school}/students', middleware: SubstituteBindings::class)]
     public function store(
         School $school,

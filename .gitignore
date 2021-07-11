@@ -1,3 +1,5 @@
+/.scribe
+/docs
 /.idea
 /node_modules
 /public/hot
