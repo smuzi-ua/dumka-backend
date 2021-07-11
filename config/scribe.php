@@ -19,7 +19,7 @@ return [
     /*
      * The base URL displayed in the docs. If this is empty, Scribe will use the value of config('app.url').
      */
-    'base_url' => 'https://smuzi-ua.github.io/dumka-api-documentation/',
+    'base_url' => 'https://dumka-backend.herokuapp.com',
 
     /*
      * Tell Scribe what routes to generate documentation for.
@@ -149,6 +149,7 @@ return [
          * Source Markdown will still be in resources/docs.
          */
         'output_path' => 'public/docs',
+        'docs_url' => '/',
     ],
 
     /*
