@@ -1,0 +1,29 @@
+name: Laravel
+
+on:
+  push:
+#    branches:
+#      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛎️ Checkout 🛎️
+        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - name: 💣 Prepare application 💣
+        run: >-
+          cp .env.ci .env
+          composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+          php artisan key:generate
+      - name: ✨ Generate documentation ✨
+        run: php artisan scribe:generate
+      - name: 🚀 Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4
+        with:
+          branch: gh-pages
+          folder: public/docs
+          email: ${{ secrets.GH_EMAIL }}
+          token: ${{ secrets.GH_TOKEN }}
+          repository: ${{ secrets.GH_DOCS_REPO }}
