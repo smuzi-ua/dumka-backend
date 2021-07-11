@@ -9,6 +9,9 @@ use App\Models\School;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Spatie\RouteAttributes\Attributes\{Post, Prefix};
 
+/**
+ * @group Students
+ */
 #[Prefix('/api/v1')]
 final class StudentController
 {

@@ -6,6 +6,9 @@ use App\Http\Resources\SchoolResource;
 use App\Models\School;
 use Spatie\RouteAttributes\Attributes\{Get, Prefix};
 
+/**
+ * @group Schools
+ */
 #[Prefix('/api/v1')]
 final class SchoolController
 {

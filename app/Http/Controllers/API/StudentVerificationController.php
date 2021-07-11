@@ -7,6 +7,9 @@ use App\Models\User;
 use Illuminate\Validation\ValidationException;
 use Spatie\RouteAttributes\Attributes\{Post, Prefix};
 
+/**
+ * @group Students
+ */
 #[Prefix('/api/v1')]
 final class StudentVerificationController
 {

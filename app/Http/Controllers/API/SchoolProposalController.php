@@ -10,6 +10,10 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Spatie\RouteAttributes\Attributes\{Get, Post, Prefix};
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @group Proposals
+ * @authenticated
+ */
 #[Prefix('/api/v1')]
 final class SchoolProposalController
 {
