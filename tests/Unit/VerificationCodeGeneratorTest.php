@@ -15,7 +15,7 @@ final class VerificationCodeGeneratorTest extends TestCase
         parent::setUp();
     }
 
-    public function test_it_can_return_valid_output()
+    public function test_it_can_return_valid_output(): void
     {
         $output = $this->codeGenerator->generate();
 

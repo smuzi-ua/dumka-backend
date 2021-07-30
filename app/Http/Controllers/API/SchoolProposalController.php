@@ -4,11 +4,10 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\StoreProposalRequest;
 use App\Http\Resources\ProposalResource;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use App\Models\{Proposal, School};
-use Illuminate\Routing\Middleware\SubstituteBindings;
 use Spatie\RouteAttributes\Attributes\{Get, Post, Prefix};
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @group Proposals
@@ -17,29 +16,29 @@ use Symfony\Component\HttpFoundation\Response;
 #[Prefix('/api/v1')]
 final class SchoolProposalController
 {
+    use AuthorizesRequests;
+
     /** Get a list of proposals */
-    #[Get('/schools/{school}/proposals', middleware: ['auth:sanctum', SubstituteBindings::class])]
+    #[Get('/schools/{school}/proposals', middleware: 'auth:sanctum')]
     public function index(School $school, Request $request)
     {
-        if (!$request->user()->school()->is($school)) {
-            abort(Response::HTTP_FORBIDDEN);
-        }
+        $this->authorize('viewAny', [Proposal::class, $school]);
 
         return ProposalResource::collection($school->proposals);
     }
 
     /** Add a new proposal */
-    #[Post('/schools/{school}/proposals', middleware: ['auth:sanctum', SubstituteBindings::class])]
+    #[Post('/schools/{school}/proposals', middleware: 'auth:sanctum')]
     public function store(School $school, StoreProposalRequest $request)
     {
-        if (!$request->user()->school()->is($school)) {
-            abort(Response::HTTP_FORBIDDEN);
-        }
+        $this->authorize('create', [Proposal::class, $school]);
 
-        $proposal = new Proposal;
-        $proposal->fill($request->validated());
-        $proposal->user()->associate($request->user());
-        $proposal->school()->associate($school);
+        $proposal = Proposal::make($request->validated())
+            ->user()
+            ->associate($request->user())
+            ->school()
+            ->associate($school);
+
         $proposal->save();
 
         return ProposalResource::make($proposal);

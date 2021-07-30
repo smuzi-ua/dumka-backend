@@ -6,7 +6,6 @@ use App\Actions\CreateStudent;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Resources\StudentResource;
 use App\Models\School;
-use Illuminate\Routing\Middleware\SubstituteBindings;
 use Spatie\RouteAttributes\Attributes\{Post, Prefix};
 
 /**
@@ -16,7 +15,7 @@ use Spatie\RouteAttributes\Attributes\{Post, Prefix};
 final class StudentController
 {
     /** Create a new student */
-    #[Post('schools/{school}/students', middleware: SubstituteBindings::class)]
+    #[Post('schools/{school}/students')]
     public function store(
         School $school,
         StoreStudentRequest $request,
