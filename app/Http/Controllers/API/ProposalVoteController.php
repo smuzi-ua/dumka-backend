@@ -5,12 +5,14 @@ namespace App\Http\Controllers\API;
 use App\Enums\VoteType;
 use App\Http\Requests\StoreVoteRequest;
 use App\Http\Responses\VotesResponse;
-use App\Models\Proposal;
-use App\Models\Vote;
+use App\Models\{Proposal, Vote};
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\RouteAttributes\Attributes\{Post, Prefix};
 
-/** @group Proposals */
+/**
+ * @authenticated
+ * @group Proposals
+ */
 #[Prefix('/api/v1')]
 final class ProposalVoteController
 {

@@ -7,7 +7,7 @@ use App\Models\User;
 
 final class VotePolicy
 {
-    public function create(User $user, Proposal $proposal)
+    public function create(User $user, Proposal $proposal): bool
     {
         return $user->school()->is($proposal->school);
     }
