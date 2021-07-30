@@ -4,10 +4,9 @@ namespace Tests\Feature;
 
 use App\Enums\VoteType;
 use App\Models\Proposal;
-use App\Models\User;
 use Tests\SancrumTestCase;
 
-final class ProposalsTest extends SancrumTestCase
+final class ProposalTest extends SancrumTestCase
 {
     public function test_it_can_save_proposal(): void
     {

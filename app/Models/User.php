@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\VoteType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -27,11 +28,31 @@ final class User extends Authenticatable
         return $this->belongsTo(School::class);
     }
 
+    public function votedProposals()
+    {
+        return $this->hasManyThrough(Vote::class, Proposal::class);
+    }
+
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
+    }
+
     public function verify(): self
     {
         $this->verified_at = now();
         $this->save();
 
         return $this;
+    }
+
+    public function vote(string $type, Proposal $proposal): Vote
+    {
+        return $this
+            ->votes()
+            ->firstOrCreate([
+                'proposal_id' => $proposal->getKey(),
+                'type'        => $type,
+            ]);
     }
 }
