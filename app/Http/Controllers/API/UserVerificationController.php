@@ -8,27 +8,27 @@ use Illuminate\Validation\ValidationException;
 use Spatie\RouteAttributes\Attributes\{Post, Prefix};
 
 /**
- * @group Students
+ * @group Users
  */
 #[Prefix('/api/v1')]
-final class StudentVerificationController
+final class UserVerificationController
 {
-    /** Verify student */
-    #[Post('/students/verification')]
+    /** Verify user */
+    #[Post('/users/verification')]
     public function __invoke(StudentTokenRequest $request)
     {
-        $student = User::whereSlug($request->slug)->first();
+        $user = User::whereSlug($request->slug)->first();
 
-        if (!$student || $student->verification_code !== $request->verification_code) {
+        if (!$user || $user->verification_code !== $request->verification_code) {
             throw ValidationException::withMessages([
                 'verification_code' => 'Verification code is invalid.'
             ]);
         }
 
-        $student->verify();
+        $user->verify();
 
         return [
-            'token' => $student->createToken($request->userAgent())->plainTextToken
+            'token' => $user->createToken($request->userAgent())->plainTextToken
         ];
     }
 }

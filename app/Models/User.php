@@ -20,7 +20,8 @@ final class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'verified_at' => 'datetime',
+        'verified_at'       => 'datetime',
+        'verification_code' => 'encrypted',
     ];
 
     public function school()
@@ -35,7 +36,7 @@ final class User extends Authenticatable
 
     public function verify(): self
     {
-        $this->verified_at = now();
+        $this->verified_at       = now();
         $this->verification_code = null;
         $this->save();
 
@@ -50,5 +51,10 @@ final class User extends Authenticatable
                 'proposal_id' => $proposal->getKey(),
                 'type'        => $type,
             ]);
+    }
+
+    public function isTeacher(): bool
+    {
+        return $this->is_teacher;
     }
 }

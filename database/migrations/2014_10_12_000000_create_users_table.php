@@ -14,6 +14,7 @@ class CreateUsersTable extends Migration
             $table->foreignIdFor(School::class, 'school_id');
             $table->string('name');
             $table->string('slug')->unique();
+            $table->boolean('is_teacher')->default(false);
             $table->string('verification_code')->nullable();
             $table->timestamp('verified_at')->nullable();
             $table->timestamps();

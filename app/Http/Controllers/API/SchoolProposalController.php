@@ -20,7 +20,7 @@ final class SchoolProposalController
 
     /** Get a list of proposals */
     #[Get('/schools/{school}/proposals', middleware: 'auth:sanctum')]
-    public function index(School $school, Request $request)
+    public function index(School $school)
     {
         $this->authorize('viewAny', [Proposal::class, $school]);
 

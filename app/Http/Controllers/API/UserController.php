@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Actions\CreateStudent;
-use App\Http\Requests\StoreStudentRequest;
+use App\Actions\CreateUser;
+use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\StudentResource;
 use App\Models\School;
 use Spatie\RouteAttributes\Attributes\{Post, Prefix};
 
 /**
- * @group Students
+ * @group Users
  */
 #[Prefix('/api/v1')]
-final class StudentController
+final class UserController
 {
-    /** Create a new student */
-    #[Post('schools/{school}/students')]
+    /** Create a new user */
+    #[Post('schools/{school}/users')]
     public function store(
         School $school,
-        StoreStudentRequest $request,
-        CreateStudent $createStudent,
+        StoreUserRequest $request,
+        CreateUser $createStudent,
     ) {
         $student = $createStudent->handle($school, $request->validated());
 

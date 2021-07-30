@@ -8,13 +8,13 @@ use Illuminate\Support\Str;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
-final class StudentTest extends TestCase
+final class UserTest extends TestCase
 {
-    public function test_it_can_create_student(): void
+    public function test_it_can_create_user(): void
     {
         $school = School::factory()->create();
 
-        $this->postJson("/api/v1/schools/{$school->id}/students", [
+        $this->postJson("/api/v1/schools/{$school->id}/users", [
             'name' => 'John Doe',
             'slug' => 'johndoe'.Str::random()
         ])->assertJsonStructure([
@@ -27,33 +27,33 @@ final class StudentTest extends TestCase
         );
     }
 
-    public function test_it_can_verify_student_and_retrieve_token(): void
+    public function test_it_can_verify_user_and_retrieve_token(): void
     {
-        $student = User::factory()->for(School::factory())->create();
+        $user = User::factory()->for(School::factory())->create();
 
-        $this->postJson('/api/v1/students/verification', [
-            'slug'              => $student->slug,
-            'verification_code' => $student->verification_code,
+        $this->postJson('/api/v1/users/verification', [
+            'slug'              => $user->slug,
+            'verification_code' => $user->verification_code,
         ])->dump()->assertSuccessful()->assertJsonStructure([
             'token',
         ]);
 
         // User can't be verified twice with the same token.
-        // We should check that as well.
-        $this->postJson('/api/v1/students/verification', [
-            'slug'              => $student->slug,
-            'verification_code' => $student->verification_code,
+        // We should check that as well for security reasons.
+        $this->postJson('/api/v1/users/verification', [
+            'slug'              => $user->slug,
+            'verification_code' => $user->verification_code,
         ])->dump()->assertJsonValidationErrors([
             'verification_code'
         ]);
     }
 
-    public function test_it_can_decline_student_verification(): void
+    public function test_it_can_decline_user_verification(): void
     {
-        $student = User::first();
+        $user = User::first();
 
-        $this->postJson('/api/v1/students/verification', [
-            'slug'              => $student->slug,
+        $this->postJson('/api/v1/users/verification', [
+            'slug'              => $user->slug,
             'verification_code' => Str::random(),
         ])->assertJsonStructure([
             'message',

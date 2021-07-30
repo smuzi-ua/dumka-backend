@@ -231,7 +231,7 @@ return [
          * Any extra authentication-related info for your users. For instance, you can describe how to find or generate their auth credentials.
          * Markdown and HTML are supported.
          */
-        'extra_info' => 'You can retrieve the token by doing <a href="#verify-student">Student Verification</a>.',
+        'extra_info' => 'You can retrieve the token by doing <a href="#verify-user">User Verification</a>.',
     ],
 
     /*

@@ -17,8 +17,7 @@ final class School extends Model
         return SchoolFactory::new();
     }
 
-    // TODO: roles
-    public function students()
+    public function users()
     {
         return $this->hasMany(User::class);
     }
