@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Enums\VoteType;
 use App\Models\Proposal;
+use App\Models\School;
 use Tests\SancrumTestCase;
 
 final class ProposalTest extends SancrumTestCase
@@ -12,7 +12,7 @@ final class ProposalTest extends SancrumTestCase
     {
         $proposalData = Proposal::factory()->make()->toArray();
 
-        $this->post("/api/v1/schools/{$this->school->getRouteKey()}/proposals", $proposalData)
+        $this->postJson("/api/v1/schools/{$this->school->getRouteKey()}/proposals", $proposalData)
             ->dump()
             ->assertCreated()
             ->assertJsonStructure([
@@ -22,7 +22,7 @@ final class ProposalTest extends SancrumTestCase
 
     public function test_it_can_return_list_of_proposals(): void
     {
-        $this->get("/api/v1/schools/{$this->school->getRouteKey()}/proposals")
+        $this->getJson("/api/v1/schools/{$this->school->getRouteKey()}/proposals")
             ->dump()
             ->assertJsonStructure([
                 'data' => [
@@ -31,15 +31,23 @@ final class ProposalTest extends SancrumTestCase
             ]);
     }
 
-    public function test_it_can_upvote_successfully(): void
+    public function test_it_authorizes_list_of_proposals(): void
     {
-        $proposal = Proposal::factory()
-            ->for($this->school)
-            ->for($this->user, 'user')
-            ->create();
+        $differentSchool = School::factory()->create();
 
-        $this->post("/api/v1/proposals/{$proposal->getRouteKey()}/vote", [
-            'type' => VoteType::UPVOTE,
-        ])->dump()->assertSuccessful();
+        $this->getJson("/api/v1/schools/{$differentSchool->getRouteKey()}/proposals")
+            ->assertForbidden();
+    }
+
+
+    public function test_it_authorizes_proposal_creation(): void
+    {
+        $differentSchool = School::factory()->create();
+        $proposalData    = Proposal::factory()->make()->toArray();
+
+        $this->postJson(
+            "/api/v1/schools/{$differentSchool->getRouteKey()}/proposals",
+            $proposalData
+        )->assertForbidden();
     }
 }
