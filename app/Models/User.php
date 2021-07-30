@@ -36,6 +36,7 @@ final class User extends Authenticatable
     public function verify(): self
     {
         $this->verified_at = now();
+        $this->verification_code = null;
         $this->save();
 
         return $this;

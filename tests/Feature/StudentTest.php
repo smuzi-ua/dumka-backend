@@ -29,13 +29,22 @@ final class StudentTest extends TestCase
 
     public function test_it_can_verify_student_and_retrieve_token(): void
     {
-        $student = User::first();
+        $student = User::factory()->for(School::factory())->create();
 
         $this->postJson('/api/v1/students/verification', [
             'slug'              => $student->slug,
             'verification_code' => $student->verification_code,
-        ])->assertJsonStructure([
+        ])->dump()->assertSuccessful()->assertJsonStructure([
             'token',
+        ]);
+
+        // User can't be verified twice with the same token.
+        // We should check that as well.
+        $this->postJson('/api/v1/students/verification', [
+            'slug'              => $student->slug,
+            'verification_code' => $student->verification_code,
+        ])->dump()->assertJsonValidationErrors([
+            'verification_code'
         ]);
     }
 
