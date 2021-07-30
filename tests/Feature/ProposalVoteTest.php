@@ -9,7 +9,7 @@ use Tests\SancrumTestCase;
 final class ProposalVoteTest extends SancrumTestCase
 {
     /** @dataProvider voteTypesProvider */
-    public function test_it_can_upvote_successfully(string $type): void
+    public function test_it_can_vote_successfully(string $type): void
     {
         $proposal = Proposal::factory()
             ->for($this->school)
