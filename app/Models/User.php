@@ -28,11 +28,6 @@ final class User extends Authenticatable
         return $this->belongsTo(School::class);
     }
 
-    public function votedProposals()
-    {
-        return $this->hasManyThrough(Vote::class, Proposal::class);
-    }
-
     public function votes()
     {
         return $this->hasMany(Vote::class);
