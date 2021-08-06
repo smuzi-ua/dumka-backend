@@ -13,11 +13,13 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->foreignIdFor(School::class, 'school_id');
             $table->string('name');
-            $table->string('slug')->unique();
+            $table->string('slug');
             $table->boolean('is_teacher')->default(false);
             $table->string('verification_code')->nullable();
             $table->timestamp('verified_at')->nullable();
             $table->timestamps();
+
+            $table->unique(['slug', 'school_id']);
         });
     }
 

@@ -26,6 +26,11 @@ final class User extends Authenticatable
 
     protected $appends = ['is_verified'];
 
+    public function getRouteKey()
+    {
+        return 'slug';
+    }
+
     public function school()
     {
         return $this->belongsTo(School::class);
