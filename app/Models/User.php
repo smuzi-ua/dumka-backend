@@ -24,6 +24,8 @@ final class User extends Authenticatable
         'verification_code' => 'encrypted',
     ];
 
+    protected $appends = ['is_verified'];
+
     public function school()
     {
         return $this->belongsTo(School::class);
@@ -56,5 +58,15 @@ final class User extends Authenticatable
     public function isTeacher(): bool
     {
         return $this->is_teacher;
+    }
+
+    public function scopeHasTeacherRole($query)
+    {
+        return $query->where('is_teacher', true);
+    }
+
+    public function getIsVerifiedAttribute(): bool
+    {
+        return $this->verified_at !== null;
     }
 }
