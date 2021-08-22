@@ -26,7 +26,7 @@ final class User extends Authenticatable
 
     protected $appends = ['is_verified'];
 
-    public function getRouteKey()
+    public function getRouteKeyName()
     {
         return 'slug';
     }
