@@ -4,16 +4,22 @@ namespace App\Http\Controllers\API;
 
 use App\Actions\CreateUser;
 use App\Http\Requests\StoreUserRequest;
-use App\Http\Resources\StudentResource;
-use App\Models\School;
-use Spatie\RouteAttributes\Attributes\{Post, Prefix};
+use App\Http\Resources\UserResource;
+use App\Models\{School, User};
+use Spatie\RouteAttributes\Attributes\{Get, Post, Prefix};
 
 /**
  * @group Users
  */
 #[Prefix('/api/v1')]
-final class UserController
+final class SchoolUserController
 {
+    #[Get('/schools/{school}/users/{slug}')]
+    public function show(School $school, User $user)
+    {
+        return UserResource::make($user);
+    }
+
     /** Create a new user */
     #[Post('schools/{school}/users')]
     public function store(
@@ -23,6 +29,6 @@ final class UserController
     ) {
         $student = $createStudent->handle($school, $request->validated());
 
-        return StudentResource::make($student);
+        return UserResource::make($student);
     }
 }
