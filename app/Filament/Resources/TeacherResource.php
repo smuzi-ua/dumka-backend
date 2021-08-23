@@ -10,6 +10,7 @@ use Filament\Resources\Resource;
 use Filament\Resources\Tables\Columns;
 use Filament\Resources\Tables\Filter;
 use Filament\Resources\Tables\Table;
+use Illuminate\Validation\Rule;
 
 class TeacherResource extends Resource
 {
@@ -29,6 +30,9 @@ class TeacherResource extends Resource
                     Components\TextInput::make('slug')
                         ->label('Username')
                         ->placeholder('someone')
+                        // TODO: add "unique by two fields" validation rule
+                        // https://github.com/laravel-filament/filament/discussions/541
+                        ->addRules(['unique:users,slug'])
                         ->disableAutocomplete()
                         ->required(),
                 ]),
@@ -37,19 +41,15 @@ class TeacherResource extends Resource
                         ->relationship('school', 'name'),
                     Components\TextInput::make('verification_code')
                         ->label('Verification Code')
-                        ->placeholder('Save user to view verification code')
                         ->only(Pages\CreateTeacher::class)
+                        ->placeholder('XXXXXX')
+                        ->helpMessage('Save item to view confirmation code.')
                         ->disabled(),
                     Components\TextInput::make('verification_code')
                         ->label('Verification Code')
                         ->only(Pages\EditTeacher::class)
                         ->disabled(),
                 ]),
-                Components\Checkbox::make('is_verified')
-                    ->label('Verified?')
-                    ->inline()
-                    ->only(Pages\EditTeacher::class)
-                    ->disabled(),
             ]);
     }
 
@@ -57,7 +57,9 @@ class TeacherResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Columns\Text::make('name'),
+                Columns\Boolean::make('is_verified'),
+                Columns\Text::make('school.name'),
             ])
             ->filters([
                 //

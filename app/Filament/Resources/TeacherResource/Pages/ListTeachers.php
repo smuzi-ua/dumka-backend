@@ -13,4 +13,9 @@ class ListTeachers extends ListRecords
     {
         return parent::getQuery()->hasTeacherRole();
     }
+
+    public static function getTitle()
+    {
+        return 'Teachers';
+    }
 }
