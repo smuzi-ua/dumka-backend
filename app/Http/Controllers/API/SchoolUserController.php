@@ -14,6 +14,7 @@ use Spatie\RouteAttributes\Attributes\{Get, Post, Prefix};
 #[Prefix('/api/v1')]
 final class SchoolUserController
 {
+    /** Fetch user by school and slug */
     #[Get('/schools/{school}/users/{slug}')]
     public function show(School $school, User $user)
     {
