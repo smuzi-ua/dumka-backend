@@ -59,7 +59,11 @@ class TeacherResource extends Resource
             ->columns([
                 Columns\Text::make('name'),
                 Columns\Boolean::make('is_verified'),
-                Columns\Text::make('school.name'),
+                Columns\Text::make('school.name')
+                    ->url(function (User $record) {
+                        return route('filament.resources.schools.edit', $record->school->getRouteKey());
+                    }, true),
+                Columns\Text::make('created_at')->date(),
             ])
             ->filters([
                 //
