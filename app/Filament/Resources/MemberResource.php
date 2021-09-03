@@ -12,11 +12,11 @@ use Filament\Resources\Tables\Filter;
 use Filament\Resources\Tables\Table;
 use Illuminate\Validation\Rule;
 
-class TeacherResource extends Resource
+class MemberResource extends Resource
 {
     public static $icon = 'heroicon-o-academic-cap';
     public static $model = User::class;
-    public static $label = 'Teacher';
+    public static $label = 'Members';
 
     public static function form(Form $form)
     {
@@ -41,14 +41,15 @@ class TeacherResource extends Resource
                         ->relationship('school', 'name'),
                     Components\TextInput::make('verification_code')
                         ->label('Verification Code')
-                        ->only(Pages\CreateTeacher::class)
+                        ->only(Pages\CreateMember::class)
                         ->placeholder('XXXXXX')
                         ->helpMessage('Save item to view confirmation code.')
                         ->disabled(),
                     Components\TextInput::make('verification_code')
                         ->label('Verification Code')
-                        ->only(Pages\EditTeacher::class)
+                        ->only(Pages\EditMember::class)
                         ->disabled(),
+                    Components\Checkbox::make('is_teacher'),
                 ]),
             ]);
     }
@@ -59,6 +60,7 @@ class TeacherResource extends Resource
             ->columns([
                 Columns\Text::make('name'),
                 Columns\Boolean::make('is_verified'),
+                Columns\Boolean::make('is_teacher'),
                 Columns\Text::make('school.name')
                     ->url(function (User $record) {
                         return route('filament.resources.schools.edit', $record->school->getRouteKey());
@@ -80,9 +82,9 @@ class TeacherResource extends Resource
     public static function routes()
     {
         return [
-            Pages\ListTeachers::routeTo('/', 'index'),
-            Pages\CreateTeacher::routeTo('/create', 'create'),
-            Pages\EditTeacher::routeTo('/{record}/edit', 'edit'),
+            Pages\ListMembers::routeTo('/', 'index'),
+            Pages\CreateMember::routeTo('/create', 'create'),
+            Pages\EditMember::routeTo('/{record}/edit', 'edit'),
         ];
     }
 }
