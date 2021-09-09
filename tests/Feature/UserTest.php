@@ -14,7 +14,7 @@ final class UserTest extends TestCase
     {
         $school = School::factory()->create();
 
-        $this->postJson("/api/v1/schools/{$school->id}/users", [
+        $this->postJson("/api/v1/schools/{$school->getRouteKey()}/users/auth", [
             'name' => 'John Doe',
             'slug' => 'johndoe'.Str::random()
         ])->assertJsonStructure([
@@ -29,9 +29,10 @@ final class UserTest extends TestCase
 
     public function test_it_can_verify_user_and_retrieve_token(): void
     {
-        $user = User::factory()->for(School::factory())->create();
+        $school = School::factory()->create();
+        $user   = User::factory()->for($school)->create();
 
-        $this->postJson('/api/v1/users/verification', [
+        $this->postJson("/api/v1/schools/{$school->getRouteKey()}/users/verify", [
             'slug'              => $user->slug,
             'verification_code' => $user->verification_code,
         ])->dump()->assertSuccessful()->assertJsonStructure([
@@ -40,7 +41,7 @@ final class UserTest extends TestCase
 
         // User can't be verified twice with the same token.
         // We should check that as well for security reasons.
-        $this->postJson('/api/v1/users/verification', [
+        $this->postJson("/api/v1/schools/{$school->getRouteKey()}/users/verify", [
             'slug'              => $user->slug,
             'verification_code' => $user->verification_code,
         ])->dump()->assertJsonValidationErrors([
@@ -50,9 +51,11 @@ final class UserTest extends TestCase
 
     public function test_it_can_decline_user_verification(): void
     {
-        $user = User::first();
+        $firstSchool  = School::factory()->create();
+        $secondSchool = School::factory()->create();
+        $user         = User::factory()->for($secondSchool)->create();
 
-        $this->postJson('/api/v1/users/verification', [
+        $this->postJson("/api/v1/schools/{$firstSchool->getRouteKey()}/users/verify", [
             'slug'              => $user->slug,
             'verification_code' => Str::random(),
         ])->assertJsonStructure([

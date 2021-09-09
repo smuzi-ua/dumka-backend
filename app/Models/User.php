@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\VoteType;
+use App\Services\VerificationCodeGenerator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -39,6 +39,13 @@ final class User extends Authenticatable
     public function votes()
     {
         return $this->hasMany(Vote::class);
+    }
+
+    public function setRandomVerificationCode(): self
+    {
+        $this->verification_code = app(VerificationCodeGenerator::class)->generate();
+
+        return $this;
     }
 
     public function verify(): self

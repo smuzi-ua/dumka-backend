@@ -8,7 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @property string $verification_code
  * @property string $slug
  */
-final class StudentTokenRequest extends FormRequest
+final class UserVerificationRequest extends FormRequest
 {
     public function rules(): array
     {
